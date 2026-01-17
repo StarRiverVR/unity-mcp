@@ -160,7 +160,7 @@ namespace MCPForUnity.Editor.Resources.Scene
                 int total = allComponents.Count;
 
                 var pagedComponents = allComponents.Skip(cursor).Take(pageSize).ToList();
-                
+
                 var componentData = new List<object>();
                 foreach (var component in pagedComponents)
                 {
