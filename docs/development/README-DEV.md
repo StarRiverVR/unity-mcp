@@ -199,6 +199,12 @@ Some Unity tool calls can return *very large* JSON payloads (deep hierarchies, c
   - **`max_nodes`**: defaults to **1000**, clamped to **1..5000**
   - **`include_transform`**: defaults to **false**
 
+### `manage_scene(action="screenshot")`
+
+- Saves PNGs under `Assets/Screenshots/`.
+- Unity **2022.1+**: captures the **Game View** via `ScreenCapture.CaptureScreenshot`, so `Screen Space - Overlay` UI is included. This write is **async**, so the file may appear/import a moment later.
+- Unity **2021.3**: falls back to rendering the best available `Camera` into a `RenderTexture` (camera output only; `Screen Space - Overlay` UI is not included).
+
 ### `manage_gameobject(action="get_components")`
 
 - **Default behavior**: returns **paged component metadata** only (`typeName`, `instanceID`).
@@ -327,6 +333,36 @@ We provide a CI job to run a Natural Language Editing suite against the Unity te
 3. **Test** in Unity (restart Unity Editor first)
 4. **Iterate** - repeat steps 1-3 as needed
 5. **Restore** original files when done using `restore-dev.bat`
+
+## Important Notes
+
+### Updating Tools and Manifest
+
+When adding or modifying MCP tools in the Unity package:
+- Tool definitions are located in the manifest.json file at the repository root
+- The manifest.json version is automatically kept in sync with MCPForUnity/package.json during releases
+- If you manually update tools outside of the release process, ensure to update the manifest.json version accordingly
+- Use the comprehensive version update script: `python3 tools/update_versions.py` to sync all version references across the project
+
+The `update_versions.py` script updates:
+- MCPForUnity/package.json (Unity package version)
+- manifest.json (MCP bundle manifest)
+- Server/pyproject.toml (Python package version)
+- Server/README.md (version references)
+- README.md (fixed version examples)
+- docs/i18n/README-zh.md (fixed version examples)
+
+Usage examples:
+```bash
+# Update all files to match package.json version
+python3 tools/update_versions.py
+
+# Update all files to a specific version
+python3 tools/update_versions.py --version 9.2.0
+
+# Dry run to see what would be updated
+python3 tools/update_versions.py --dry-run
+```
 
 ## Troubleshooting
 

@@ -36,9 +36,9 @@
 > https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity
 > ```
 
-**需要一个稳定/固定版本？** 使用带 tag 的 URL（更新时需要卸载才能更新）：
+**想要最新的 beta 版本？** 使用 beta 分支：
 ```text
-https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#v9.1.0
+https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#beta
 ```
 
 <details>
@@ -157,8 +157,8 @@ MCP for Unity 支持多个 Unity Editor 实例。要将操作定向到某个特�
 要使用能捕获未定义命名空间、类型和方法的 **Strict** 验证：
 
 1. 安装 [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity)
-2. `Window > NuGet Package Manager` → 安装 `Microsoft.CodeAnalysis` v4.14.0
-3. 同时安装 `SQLitePCLRaw.core` 和 `SQLitePCLRaw.bundle_e_sqlite3`
+2. `Window > NuGet Package Manager` → 安装 `Microsoft.CodeAnalysis` v5.0
+3. 同时安装 `SQLitePCLRaw.core` 和 `SQLitePCLRaw.bundle_e_sqlite3` v3.0.2
 4. 在 `Player Settings > Scripting Define Symbols` 中添加 `USE_ROSLYN`
 5. 重启 Unity
 

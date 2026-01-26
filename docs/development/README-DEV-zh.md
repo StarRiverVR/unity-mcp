@@ -208,6 +208,12 @@ X:\UnityProject\Library\PackageCache\com.coplaydev.unity-mcp@272123cfd97e
   - **`max_nodes`**：默认 **1000**，限制 **1..5000**
   - **`include_transform`**：默认 **false**
 
+### `manage_scene(action="screenshot")`
+
+- 将 PNG 保存到 `Assets/Screenshots/`。
+- Unity **2022.1+**：通过 `ScreenCapture.CaptureScreenshot` 捕获 **Game View**，因此包含 `Screen Space - Overlay` UI。注意该写入是 **异步** 的，文件/导入可能会稍后出现。
+- Unity **2021.3**：回退为将可用的 `Camera` 渲染到 `RenderTexture`（仅相机输出；不包含 `Screen Space - Overlay` UI）。
+
 ### `manage_gameobject(action="get_components")`
 
 - **默认行为**：仅返回 **分页的组件元数据**（`typeName`, `instanceID`）。
@@ -337,6 +343,36 @@ python3 tools/stress_mcp.py \
 3. **在 Unity 中测试**（先重启 Unity Editor）
 4. **迭代** - 按需重复 1-3
 5. **Restore** 完成后用 `restore-dev.bat` 恢复原始文件
+
+## 重要说明
+
+### 更新工具和 Manifest
+
+在 Unity 包中添加或修改 MCP 工具时：
+- 工具定义位于仓库根目录的 manifest.json 文件中
+- 在发布过程中，manifest.json 版本会自动与 MCPForUnity/package.json 保持同步
+- 如果在发布过程之外手动更新工具，请确保相应更新 manifest.json 版本
+- 使用综合版本更新脚本：`python3 tools/update_versions.py` 来同步项目中所有版本引用
+
+`update_versions.py` 脚本会更新：
+- MCPForUnity/package.json（Unity 包版本）
+- manifest.json（MCP bundle manifest）
+- Server/pyproject.toml（Python 包版本）
+- Server/README.md（版本引用）
+- README.md（固定版本示例）
+- docs/i18n/README-zh.md（固定版本示例）
+
+使用示例：
+```bash
+# 更新所有文件以匹配 package.json 版本
+python3 tools/update_versions.py
+
+# 更新所有文件到指定版本
+python3 tools/update_versions.py --version 9.2.0
+
+# 干运行以查看将要更新的内容
+python3 tools/update_versions.py --dry-run
+```
 
 ## Troubleshooting
 
